@@ -1,15 +1,32 @@
+// ══════════════════════════════════════════
+//  NJEM — Script.js
+// ══════════════════════════════════════════
+
 // ── Custom Cursor ──────────────────────────────────────────
-// Uses direct style assignment — no mix-blend-mode interference
+//
+//  FIX: Previously we set `left` and `top` in JS while CSS also
+//  had `transform: translate(-50%,-50%)`. Some browsers apply the
+//  CSS transform BEFORE the JS overrides land, causing a one-frame
+//  offset that makes the dot invisible at (0,0).
+//
+//  New approach: cursor starts off-screen via transform in CSS.
+//  JS only ever touches `transform: translate(x, y)` — no left/top.
+//  This is also GPU-accelerated and flicker-free.
+//
 const cur  = document.getElementById('cursor');
 const ring = document.getElementById('cursorRing');
 
 document.addEventListener('mousemove', e => {
-  cur.style.left  = e.clientX + 'px';
-  cur.style.top   = e.clientY + 'px';
-  // Ring follows with a slight delay for trailing effect
+  const x = e.clientX;
+  const y = e.clientY;
+
+  // Centre the 10px dot on the cursor tip
+  cur.style.transform = `translate(${x - 5}px, ${y - 5}px)`;
+
+  // Ring follows with a slight lag (trailing effect)
+  // Centre the 34px ring (half = 17px)
   setTimeout(() => {
-    ring.style.left = e.clientX + 'px';
-    ring.style.top  = e.clientY + 'px';
+    ring.style.transform = `translate(${x - 17}px, ${y - 17}px)`;
   }, 60);
 });
 
@@ -20,19 +37,46 @@ window.addEventListener('scroll', () => {
 });
 
 // ── Scroll Reveal ───────────────────────────────────────────
-const reveals = document.querySelectorAll('.reveal');
+//
+//  FIX 1: threshold changed from 0.1 to 0 so the callback fires
+//          the instant even 1px of an element enters the viewport.
+//
+//  FIX 2: removed the `i * 80` batch-index stagger. The `i` inside
+//          forEach was the index within that *one batch* of observer
+//          entries — when multiple sections entered at once they all
+//          got near-identical delays and appeared to flash in or
+//          never trigger. Now each element gets a small fixed delay
+//          based on a global counter instead.
+//
+let revealCount = 0;
+
 const revealObserver = new IntersectionObserver(entries => {
-  entries.forEach((entry, i) => {
+  entries.forEach(entry => {
     if (entry.isIntersecting) {
-      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      const delay = revealCount * 80;
+      revealCount++;
+      setTimeout(() => {
+        entry.target.classList.add('visible');
+      }, delay);
       revealObserver.unobserve(entry.target);
     }
   });
-}, { threshold: 0.1 });
-reveals.forEach(r => revealObserver.observe(r));
+}, {
+  threshold: 0,
+  rootMargin: '0px 0px -40px 0px'   // trigger 40px before the bottom edge
+});
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// Safety net: if the observer never fires (e.g. unsupported browser),
+// make every reveal element visible after 2 seconds automatically.
+setTimeout(() => {
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
+    el.classList.add('visible');
+  });
+}, 2000);
 
 // ── Track Hover (show play icon) ────────────────────────────
-
 document.querySelectorAll('.track').forEach(track => {
   const numEl  = track.querySelector('.track-num');
   const playEl = track.querySelector('.track-play');
@@ -54,10 +98,8 @@ function openLightbox(label) {
   if (lbLbl && label) lbLbl.textContent = label;
   lb.classList.add('active');
 }
-
 function closeLightbox() {
-  do
-  cument.getElementById('lightbox').classList.remove('active');
+  document.getElementById('lightbox').classList.remove('active');
 }
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeLightbox();
