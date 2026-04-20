@@ -72,17 +72,62 @@ document.addEventListener('keydown', e => {
 });
 
 // ── Contact Form Submit ─────────────────────────────────────
-function handleSubmit() {
-  const btn = document.querySelector('.btn-submit');
-  if (!btn) return;
-  btn.textContent       = 'Message Sent ✓';
-  btn.style.borderColor = '#00e5ff';
-  btn.style.color       = '#00e5ff';
-  btn.style.boxShadow   = '0 0 20px rgba(0,229,255,0.3)';
-  setTimeout(() => {
-    btn.textContent   = 'Send Message →';
-    btn.style.cssText = '';
-  }, 3000);
+async function handleSubmit() {
+  const btn     = document.querySelector('.btn-submit');
+  const name    = document.getElementById('name').value.trim();
+  const email   = document.getElementById('email').value.trim();
+  const subject = document.getElementById('subject').value.trim();
+  const message = document.getElementById('message').value.trim();
+
+  if (!name || !email || !message) {
+    btn.textContent   = 'Please fill in all fields';
+    btn.style.color   = '#ff4444';
+    btn.style.borderColor = '#ff4444';
+    setTimeout(() => {
+      btn.textContent   = 'Send Message →';
+      btn.style.cssText = '';
+    }, 3000);
+    return;
+  }
+
+  btn.textContent = 'Sending...';
+  btn.disabled    = true;
+
+  try {
+    const response = await fetch('Replace this with you KEY available at Formspree.com', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, subject, message })
+    });
+
+    if (response.ok) {
+      btn.textContent       = 'Message Sent ✓';
+      btn.style.borderColor = '#00e5ff';
+      btn.style.color       = '#00e5ff';
+      btn.style.boxShadow   = '0 0 20px rgba(0,229,255,0.3)';
+
+      // Clear the form
+      document.getElementById('name').value    = '';
+      document.getElementById('email').value   = '';
+      document.getElementById('subject').value = '';
+      document.getElementById('message').value = '';
+
+    } else {
+      throw new Error('Server error');
+    }
+
+  } catch (err) {
+    btn.textContent       = 'Failed — Try Again';
+    btn.style.borderColor = '#ff4444';
+    btn.style.color       = '#ff4444';
+
+  } finally {
+    btn.disabled = false;
+    setTimeout(() => {
+      btn.textContent   = 'Send Message →';
+      btn.style.cssText = '';
+    }, 4000);
+  }
 }
 
 // ── Smooth Scroll ───────────────────────────────────────────
