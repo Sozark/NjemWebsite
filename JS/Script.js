@@ -3,28 +3,13 @@
 // ══════════════════════════════════════════
 
 // ── Custom Cursor ──────────────────────────────────────────
-//
-//  FIX: Previously we set `left` and `top` in JS while CSS also
-//  had `transform: translate(-50%,-50%)`. Some browsers apply the
-//  CSS transform BEFORE the JS overrides land, causing a one-frame
-//  offset that makes the dot invisible at (0,0).
-//
-//  New approach: cursor starts off-screen via transform in CSS.
-//  JS only ever touches `transform: translate(x, y)` — no left/top.
-//  This is also GPU-accelerated and flicker-free.
-//
 const cur  = document.getElementById('cursor');
 const ring = document.getElementById('cursorRing');
 
 document.addEventListener('mousemove', e => {
   const x = e.clientX;
   const y = e.clientY;
-
-  // Centre the 10px dot on the cursor tip
-  cur.style.transform = `translate(${x - 5}px, ${y - 5}px)`;
-
-  // Ring follows with a slight lag (trailing effect)
-  // Centre the 34px ring (half = 17px)
+  cur.style.transform  = `translate(${x - 5}px, ${y - 5}px)`;
   setTimeout(() => {
     ring.style.transform = `translate(${x - 17}px, ${y - 17}px)`;
   }, 60);
@@ -37,39 +22,21 @@ window.addEventListener('scroll', () => {
 });
 
 // ── Scroll Reveal ───────────────────────────────────────────
-//
-//  FIX 1: threshold changed from 0.1 to 0 so the callback fires
-//          the instant even 1px of an element enters the viewport.
-//
-//  FIX 2: removed the `i * 80` batch-index stagger. The `i` inside
-//          forEach was the index within that *one batch* of observer
-//          entries — when multiple sections entered at once they all
-//          got near-identical delays and appeared to flash in or
-//          never trigger. Now each element gets a small fixed delay
-//          based on a global counter instead.
-//
 let revealCount = 0;
-
 const revealObserver = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       const delay = revealCount * 80;
       revealCount++;
-      setTimeout(() => {
-        entry.target.classList.add('visible');
-      }, delay);
+      setTimeout(() => entry.target.classList.add('visible'), delay);
       revealObserver.unobserve(entry.target);
     }
   });
-}, {
-  threshold: 0,
-  rootMargin: '0px 0px -40px 0px'   // trigger 40px before the bottom edge
-});
+}, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
 
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-// Safety net: if the observer never fires (e.g. unsupported browser),
-// make every reveal element visible after 2 seconds automatically.
+// Safety net — make everything visible after 2 s if observer fails
 setTimeout(() => {
   document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
     el.classList.add('visible');
@@ -80,7 +47,6 @@ setTimeout(() => {
 document.querySelectorAll('.track').forEach(track => {
   const numEl  = track.querySelector('.track-num');
   const playEl = track.querySelector('.track-play');
-
   track.addEventListener('mouseenter', () => {
     if (numEl)  numEl.style.opacity  = '0';
     if (playEl) playEl.style.opacity = '1';
@@ -119,7 +85,7 @@ function handleSubmit() {
   }, 3000);
 }
 
-// ── Smooth Scroll for anchor links ──────────────────────────
+// ── Smooth Scroll ───────────────────────────────────────────
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', e => {
     e.preventDefault();
@@ -128,106 +94,176 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-/* ── AUDIO PLAYER ── */
+// ══════════════════════════════════════════
+//  AUDIO PLAYER
+//  FIX 1: audio.play() now catches Promise rejections so
+//          failures are visible in the console instead of
+//          silently doing nothing.
+//  FIX 2: player bar had no CSS — added full styles to
+//          Styles.css so the bar is now visible.
+//  FIX 3: track click targets the whole row, not just the
+//          tiny play icon, so it always registers.
+//  FIX 4: active track gets a .playing class so the row
+//          stays highlighted while audio is running.
+// ══════════════════════════════════════════
 (function () {
-  const audio       = document.getElementById('audioEngine');
-  const bar         = document.getElementById('playerBar');
-  const nameEl      = document.getElementById('playerTrackName');
-  const metaEl      = document.getElementById('playerTrackMeta');
-  const playPauseBtn= document.getElementById('playerPlayPause');
-  const prevBtn     = document.getElementById('playerPrev');
-  const nextBtn     = document.getElementById('playerNext');
-  const progress    = document.getElementById('playerProgress');
-  const currentTime = document.getElementById('playerCurrentTime');
-  const durationEl  = document.getElementById('playerDuration');
-  const volumeEl    = document.getElementById('playerVolume');
 
+  const audio        = document.getElementById('audioEngine');
+  const bar          = document.getElementById('playerBar');
+  const nameEl       = document.getElementById('playerTrackName');
+  const metaEl       = document.getElementById('playerTrackMeta');
+  const playPauseBtn = document.getElementById('playerPlayPause');
+  const prevBtn      = document.getElementById('playerPrev');
+  const nextBtn      = document.getElementById('playerNext');
+  const progress     = document.getElementById('playerProgress');
+  const currentTimeEl= document.getElementById('playerCurrentTime');
+  const durationEl   = document.getElementById('playerDuration');
+  const volumeEl     = document.getElementById('playerVolume');
+
+  // Only grab tracks that actually have an audio source attached
   const tracks = Array.from(document.querySelectorAll('.track[data-src]'));
   let currentIndex = -1;
 
+  // ── Format seconds → m:ss ──
   function fmt(s) {
-    const m = Math.floor(s / 60);
+    if (isNaN(s) || s < 0) return '0:00';
+    const m   = Math.floor(s / 60);
     const sec = Math.floor(s % 60).toString().padStart(2, '0');
     return `${m}:${sec}`;
   }
 
+  // ── Mark which track row is active ──
+  function setActiveTrack(index) {
+    tracks.forEach((t, i) => {
+      t.classList.toggle('playing', i === index);
+      // Also update the number/play icon state
+      const num  = t.querySelector('.track-num');
+      const play = t.querySelector('.track-play');
+      if (num)  num.style.opacity  = (i === index) ? '0'   : '';
+      if (play) play.style.opacity = (i === index) ? '1'   : '';
+    });
+  }
+
+  // ── Load and play a track by index ──
   function loadTrack(index) {
     if (index < 0 || index >= tracks.length) return;
 
-    // Remove playing class from previous
-    tracks.forEach(t => t.classList.remove('playing'));
-
     currentIndex = index;
-    const t = tracks[index];
-    const src = t.dataset.src;
-    const name = t.querySelector('.track-name').textContent;
-    const meta = t.querySelector('.track-meta').textContent;
+    const t    = tracks[index];
+    const src  = t.dataset.src;
+    const name = t.querySelector('.track-name')?.textContent ?? '—';
+    const meta = t.querySelector('.track-meta')?.textContent ?? '';
 
-    audio.src = src;
-    audio.volume = volumeEl.value / 100;
-    audio.play();
-
+    // Update player bar info
     nameEl.textContent = name;
     metaEl.textContent = meta;
-    playPauseBtn.innerHTML = '&#9646;&#9646;';
-    t.classList.add('playing');
+
+    // Set source and volume
+    audio.src    = src;
+    audio.volume = volumeEl.value / 100;
+
+    // Show the bar before trying to play
     bar.classList.add('visible');
+    setActiveTrack(index);
+
+    // FIX: play() returns a Promise — catch any rejection
+    // (e.g. file not found, browser autoplay block, codec issue)
+    const playPromise = audio.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          // Playback started successfully
+          playPauseBtn.innerHTML = '&#9646;&#9646;';
+        })
+        .catch(err => {
+          // Playback failed — log the real reason to the console
+          console.error('⚠️  Audio playback failed:', err.message);
+          console.error('    File attempted:', src);
+          console.error('    Possible causes:');
+          console.error('      • File not found — check the Music/ folder path');
+          console.error('      • File extension case mismatch (.mp3 vs .MP3)');
+          console.error('      • Browser blocked autoplay — user must interact first');
+
+          // Show a visible error state on the button so it's not silent
+          playPauseBtn.innerHTML = '&#9888;';  // ⚠ warning symbol
+          playPauseBtn.title = 'Playback failed — check console for details';
+          setTimeout(() => {
+            playPauseBtn.innerHTML = '&#9654;';
+            playPauseBtn.title = 'Play';
+          }, 3000);
+        });
+    }
   }
 
-  // Click any track row to play it
+  // ── Click any track row to play ──
   tracks.forEach((t, i) => {
     t.addEventListener('click', () => {
+      // If clicking the currently-playing track, toggle pause
       if (i === currentIndex && !audio.paused) {
         audio.pause();
         playPauseBtn.innerHTML = '&#9654;';
+        // Keep row highlighted but show a paused indicator
+        t.classList.add('paused');
       } else {
+        t.classList.remove('paused');
         loadTrack(i);
       }
     });
   });
 
-  // Play/pause button
+  // ── Player bar: play/pause button ──
   playPauseBtn.addEventListener('click', () => {
+    if (currentIndex === -1) return;  // nothing loaded yet
+
     if (audio.paused) {
-      audio.play();
-      playPauseBtn.innerHTML = '&#9646;&#9646;';
+      audio.play()
+        .then(() => { playPauseBtn.innerHTML = '&#9646;&#9646;'; })
+        .catch(err => console.error('Resume failed:', err.message));
     } else {
       audio.pause();
       playPauseBtn.innerHTML = '&#9654;';
     }
   });
 
-  // Prev / Next
-  prevBtn.addEventListener('click', () => loadTrack(currentIndex - 1));
-  nextBtn.addEventListener('click', () => loadTrack(currentIndex + 1));
+  // ── Prev / Next ──
+  prevBtn.addEventListener('click', () => {
+    if (currentIndex > 0) loadTrack(currentIndex - 1);
+  });
+  nextBtn.addEventListener('click', () => {
+    if (currentIndex < tracks.length - 1) loadTrack(currentIndex + 1);
+  });
 
-  // Auto-advance
+  // ── Auto-advance to next track when one ends ──
   audio.addEventListener('ended', () => {
-    if (currentIndex + 1 < tracks.length) loadTrack(currentIndex + 1);
-    else {
+    if (currentIndex + 1 < tracks.length) {
+      loadTrack(currentIndex + 1);
+    } else {
+      // Reached the end of the playlist
       playPauseBtn.innerHTML = '&#9654;';
-      tracks.forEach(t => t.classList.remove('playing'));
+      setActiveTrack(-1);
     }
   });
 
-  // Progress bar — update as audio plays
+  // ── Progress bar — update while playing ──
   audio.addEventListener('timeupdate', () => {
-    if (!audio.duration) return;
-    progress.value = (audio.currentTime / audio.duration) * 100;
-    currentTime.textContent = fmt(audio.currentTime);
+    if (!audio.duration || isNaN(audio.duration)) return;
+    progress.value           = (audio.currentTime / audio.duration) * 100;
+    currentTimeEl.textContent = fmt(audio.currentTime);
   });
 
   audio.addEventListener('loadedmetadata', () => {
     durationEl.textContent = fmt(audio.duration);
   });
 
-  // Scrubbing
+  // ── Scrubbing ──
   progress.addEventListener('input', () => {
+    if (!audio.duration) return;
     audio.currentTime = (progress.value / 100) * audio.duration;
   });
 
-  // Volume
+  // ── Volume ──
   volumeEl.addEventListener('input', () => {
     audio.volume = volumeEl.value / 100;
   });
+
 })();

@@ -220,6 +220,190 @@ nav.scrolled {
   to   { transform: translateY(-30px) scale(1.05); }
 }
 
+/* ════════════════════════════════════════════
+   AUDIO PLAYER BAR
+   Fixed to the bottom of the screen.
+   Starts hidden (transform: translateY(100%))
+   and slides up when JS adds .visible.
+   ════════════════════════════════════════════ */
+.player-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 500;
+  height: 72px;
+ 
+  /* Dark glass background */
+  background: rgba(6, 6, 8, 0.96);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(0, 229, 255, 0.15);
+  box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.6);
+ 
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0 2rem;
+ 
+  /* Hidden below screen until a track is played */
+  transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+ 
+/* JS adds this class to slide the bar up */
+.player-bar.visible {
+  transform: translateY(0);
+}
+ 
+/* ── Track info (left side) ── */
+.player-info {
+  min-width: 160px;
+  max-width: 220px;
+  overflow: hidden;
+}
+.player-track-name {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.player-track-meta {
+  font-family: 'Syne Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 0.15rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+ 
+/* ── Control buttons (centre) ── */
+.player-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-shrink: 0;
+}
+.player-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.65rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.player-btn:hover {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  box-shadow: var(--glow-cyan);
+}
+/* Play/pause is slightly larger */
+.player-btn--play {
+  width: 44px; height: 44px;
+  font-size: 0.75rem;
+  border-color: rgba(0, 229, 255, 0.4);
+  color: var(--cyan);
+}
+.player-btn--play:hover {
+  background: var(--cyan);
+  color: #000;
+}
+ 
+/* ── Progress bar (takes remaining width) ── */
+.player-progress-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+}
+.player-time {
+  font-family: 'Syne Mono', monospace;
+  font-size: 0.62rem;
+  color: var(--muted);
+  flex-shrink: 0;
+  min-width: 32px;
+}
+ 
+/* Range input — progress bar */
+.player-progress {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+}
+.player-progress::-webkit-slider-runnable-track {
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(
+    to right,
+    var(--cyan) 0%,
+    var(--cyan) calc(var(--progress, 0) * 1%),
+    rgba(255,255,255,0.08) calc(var(--progress, 0) * 1%),
+    rgba(255,255,255,0.08) 100%
+  );
+}
+.player-progress::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--cyan);
+  margin-top: -4.5px;
+  box-shadow: 0 0 6px rgba(0,229,255,0.6);
+  cursor: pointer;
+}
+.player-progress::-moz-range-track {
+  height: 3px; border-radius: 2px; background: rgba(255,255,255,0.08);
+}
+.player-progress::-moz-range-thumb {
+  border: none; width:12px; height:12px; border-radius:50%; background:var(--cyan); cursor:pointer;
+}
+.player-progress::-moz-range-progress { height:3px; border-radius:2px; background:var(--cyan); }
+ 
+/* ── Volume (right side) ── */
+.player-volume-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+.player-vol-icon {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.player-volume {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 80px;
+  height: 3px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+.player-volume::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--muted);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.player-volume:hover::-webkit-slider-thumb { background: var(--cyan); }
+.player-volume::-moz-range-thumb { border:none; width:10px; height:10px; border-radius:50%; background:var(--muted); cursor:pointer; }
+ 
+
 /* Hero text content */
 .hero-content {
   position: relative; z-index: 2;
