@@ -94,18 +94,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-// ══════════════════════════════════════════
-//  AUDIO PLAYER
-//  FIX 1: audio.play() now catches Promise rejections so
-//          failures are visible in the console instead of
-//          silently doing nothing.
-//  FIX 2: player bar had no CSS — added full styles to
-//          Styles.css so the bar is now visible.
-//  FIX 3: track click targets the whole row, not just the
-//          tiny play icon, so it always registers.
-//  FIX 4: active track gets a .playing class so the row
-//          stays highlighted while audio is running.
-// ══════════════════════════════════════════
 (function () {
 
   const audio        = document.getElementById('audioEngine');
