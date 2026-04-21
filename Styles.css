@@ -379,7 +379,7 @@ nav.scrolled {
   flex-shrink: 0;
 }
 .player-vol-icon {
-  font-size: 0.9rem;
+  font-size: 2.3rem;
   color: var(--muted);
 }
 .player-volume {

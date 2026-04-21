@@ -120,6 +120,7 @@
 
           <span class="featured-art-label">NEW EP</span>
         </div>
+
         <div class="featured-info">
           <p class="featured-tag">Featured Release</p>
           <h3 class="featured-title">Proposed Utopia</h3>
@@ -260,6 +261,7 @@
         <a href="https://njem.bandcamp.com/album/proposed-utopia" class="platform-btn"><span class="platform-icon">&#9650;</span> Bandcamp</a>
         <a href="https://music.apple.com/us/artist/eternalnjem/1604718043" class="platform-btn"><span class="platform-icon">&#10022;</span> Apple Music</a>
       </div>
+
     </div>
   </section>
 
@@ -554,7 +556,6 @@
     <div class="lightbox-close" onclick="closeLightbox()">[ CLOSE ]</div>
     <div class="lightbox-content" onclick="event.stopPropagation()">
       <div class="lightbox-placeholder" id="lightboxPlaceholder">
-
         <div class="lightbox-ph-inner">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.6" style="opacity:0.25;margin-bottom:1rem;">
             <rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/>
@@ -587,12 +588,29 @@
     </div>
 
     <div class="player-volume-wrap">
-      <span class="player-vol-icon">&#128264;</span>
-      <input type="range" class="player-volume" id="playerVolume" value="80" min="0" max="100">
-    </div>
-  </div>
+  <span class="player-vol-icon">
+    <!-- Added viewBox and path d for a basic icon -->
+    <svg class="speaker-svg" viewBox="0 0 24 24" width="24" height="24">
+      <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"></path>
+    </svg>
+  </span>
+  <input type="range" class="player-volume" id="playerVolume" value="80" min="0" max="100">
+</div> <!-- Removed extra </div> here -->
 
-<audio id="audioEngine" preload="metadata"></audio>
+<audio id="audioEngine" src="path/to/audio.mp3" preload="metadata"></audio>
+
+<style>
+  .speaker-svg path {
+    fill: #a259ff;
+    transition: fill 0.3s ease;
+  }
+  
+  /* Example hover effect */
+  .player-volume-wrap:hover .speaker-svg path {
+    fill: #e74c3c;
+  }
+</style>
+
 
   <script src="JS/Script.js"></script>
 </body>
