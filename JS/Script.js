@@ -94,7 +94,7 @@ async function handleSubmit() {
   btn.disabled    = true;
 
   try {
-    const response = await fetch('Replace this with you KEY available at Formspree.com', {
+    const response = await fetch('https://formspree.io/f/mwvanowj', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, subject, message })

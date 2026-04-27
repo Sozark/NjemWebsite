@@ -91,14 +91,14 @@ nav.scrolled {
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
 }
-.nav-logo {
-  font-family: 'Orbitron', monospace;
-  font-weight: 900; font-size: 1.3rem;
-  letter-spacing: 0.2em;
-  color: var(--text);
-  text-decoration: none;
-  text-transform: uppercase;
+.nav-logo img {
+  height: 48px;        /* controls the logo height — adjust to taste */
+  width: auto;         /* keeps the aspect ratio correct */
+  display: block;
+  object-fit: contain;
+  transition: opacity 0.2s ease;
 }
+
 .nav-logo span { color: var(--cyan); }
 .nav-links { display: flex; gap: 2.5rem; list-style: none; }
 .nav-links a {
@@ -116,7 +116,7 @@ nav.scrolled {
   transform: scaleX(0); transform-origin: right;
   transition: transform 0.3s ease;
 }
-.nav-links a:hover { color: var(--cyan); }
+.nav-links a:hover {opacity: 0.75;}
 .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
 
 /* ═══════════════════════════════════════════
