@@ -2,6 +2,15 @@
    NJEM — Artist Website Styles
    ══════════════════════════════════════════ */
 
+/* ── Custom Font ── */
+@font-face {
+  font-family: 'Homoarak';
+  src: url('Fonts/HOMOARAK.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ── Color Palette ── */
 :root {
   --black:       #060608;
@@ -24,7 +33,7 @@ html { scroll-behavior: smooth; }
 body {
   background: var(--black);
   color: var(--text);
-  font-family: 'Syne', sans-serif;
+  font-family: 'Homoarak', sans-serif;
   font-size: 16px;
   line-height: 1.7;
   overflow-x: hidden;
@@ -102,7 +111,7 @@ nav.scrolled {
 .nav-logo span { color: var(--cyan); }
 .nav-links { display: flex; gap: 2.5rem; list-style: none; }
 .nav-links a {
-  font-family: 'Syne Mono', monospace;
+  font-family: 'Homoarak', monospace;
   font-size: 0.72rem; letter-spacing: 0.18em;
   text-transform: uppercase; text-decoration: none;
   color: var(--muted);
@@ -260,7 +269,7 @@ nav.scrolled {
   overflow: hidden;
 }
 .player-track-name {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Homoarak', sans-serif;
   font-weight: 700;
   font-size: 0.85rem;
   color: var(--text);
@@ -269,7 +278,7 @@ nav.scrolled {
   text-overflow: ellipsis;
 }
 .player-track-meta {
-  font-family: 'Syne Mono', monospace;
+  font-family: 'Homoarak', monospace;
   font-size: 0.6rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -324,7 +333,7 @@ nav.scrolled {
   min-width: 0;
 }
 .player-time {
-  font-family: 'Syne Mono', monospace;
+  font-family: 'Homoarak', monospace;
   font-size: 0.62rem;
   color: var(--muted);
   flex-shrink: 0;
@@ -415,7 +424,7 @@ nav.scrolled {
   to   { opacity: 1; transform: translateY(0); }
 }
 .hero-eyebrow {
-  font-family: 'Syne Mono', monospace;
+  font-family: 'Homoarak', monospace;
   font-size: 0.7rem; letter-spacing: 0.3em;
   text-transform: uppercase; color: var(--cyan);
   margin-bottom: 1.5rem;
@@ -425,7 +434,7 @@ nav.scrolled {
   content: ''; width: 40px; height: 1px; background: var(--cyan);
 }
 .hero-title {
-  font-family: 'Orbitron', monospace;
+  font-family: 'Homoarak', monospace;
   font-weight: 900;
   font-size: clamp(4rem, 12vw, 10rem);
   line-height: 0.9;
@@ -439,7 +448,7 @@ nav.scrolled {
 .hero-title::before, .hero-title::after {
   content: attr(data-text);
   position: absolute; top: 0; left: 0; right: 0;
-  font-family: 'Orbitron', monospace; font-weight: 900;
+  font-family: 'Homoarak', monospace; font-weight: 900;
 }
 .hero-title::before {
   color: var(--cyan);
@@ -469,7 +478,7 @@ nav.scrolled {
   margin-top: 1.5rem;
   font-size: 1rem; letter-spacing: 0.25em;
   text-transform: uppercase; color: var(--muted);
-  font-family: 'Syne', sans-serif; font-weight: 600;
+  font-family: 'Homoarak', sans-serif; font-weight: 600;
   text-shadow: 0 1px 8px rgba(0,0,0,0.7);
 }
 .hero-cta {
@@ -479,7 +488,7 @@ nav.scrolled {
 .btn {
   display: inline-flex; align-items: center; gap: 0.6rem;
   padding: 0.9rem 2.2rem;
-  font-family: 'Syne Mono', monospace;
+  font-family: 'Homoarak', monospace;
   font-size: 0.72rem; letter-spacing: 0.2em;
   text-transform: uppercase; text-decoration: none;
   border-radius: 2px; cursor: none;
@@ -503,7 +512,7 @@ nav.scrolled {
   z-index: 2;
   transform: translateX(-50%);
   display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
-  font-family: 'Syne Mono', monospace; font-size: 0.6rem;
+  font-family: 'Homoarak', monospace; font-size: 0.6rem;
   letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase;
   animation: bounce 2s ease-in-out infinite;
 }
@@ -521,7 +530,7 @@ section { padding: 7rem 0; }
 .container { max-width: 1200px; margin: 0 auto; padding: 0 3rem; }
 
 .section-label {
-  font-family: 'Syne Mono', monospace;
+  font-family: 'Homoarak', monospace;
   font-size: 0.65rem; letter-spacing: 0.35em;
   text-transform: uppercase; color: var(--cyan);
   margin-bottom: 1rem;
@@ -531,7 +540,7 @@ section { padding: 7rem 0; }
   content: ''; flex: 1; max-width: 60px; height: 1px; background: var(--cyan);
 }
 .section-title {
-  font-family: 'Orbitron', monospace;
+  font-family: 'Homoarak', monospace;
   font-weight: 900; font-size: clamp(2rem, 5vw, 3.5rem);
   line-height: 1; text-transform: uppercase;
   letter-spacing: -0.02em; margin-bottom: 4rem;
@@ -577,24 +586,24 @@ section { padding: 7rem 0; }
 }
 .featured-art-label {
   position: absolute; top: 0.8rem; right: 0.8rem;
-  font-family: 'Syne Mono', monospace;
+  font-family: 'Homoarak', monospace;
   font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase;
   color: var(--cyan); background: rgba(0,229,255,0.08);
   border: 1px solid rgba(0,229,255,0.2); padding: 0.2rem 0.6rem; border-radius: 2px;
 }
 .featured-tag {
-  font-family: 'Syne Mono', monospace; font-size: 0.62rem;
+  font-family: 'Homoarak', monospace; font-size: 0.62rem;
   letter-spacing: 0.25em; text-transform: uppercase; color: var(--purple);
   margin-bottom: 0.6rem;
 }
 .featured-title {
-  font-family: 'Orbitron', monospace; font-weight: 900; font-size: 1.5rem;
+  font-family: 'Homoarak', monospace; font-weight: 900; font-size: 1.5rem;
   color: var(--text); margin-bottom: 0.8rem;
 }
 .featured-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.2rem; }
 .featured-meta {
   display: flex; gap: 0.8rem;
-  font-family: 'Syne Mono', monospace; font-size: 0.65rem;
+  font-family: 'Homoarak', monospace; font-size: 0.65rem;
   color: var(--muted); letter-spacing: 0.1em; margin-bottom: 1.5rem;
 }
 .featured-actions { display: flex; gap: 0.8rem; }
@@ -626,7 +635,7 @@ section { padding: 7rem 0; }
   position: relative;
 }
 .track-num {
-  font-family: 'Syne Mono', monospace; font-size: 0.8rem; color: var(--muted);
+  font-family: 'Homoarak', monospace; font-size: 0.8rem; color: var(--muted);
   position: absolute; transition: opacity 0.15s ease;
 }
 .track-play {
@@ -638,14 +647,14 @@ section { padding: 7rem 0; }
 }
 .track:hover .track-num  { opacity: 0; }
 .track:hover .track-play { opacity: 1; }
-.track-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem; color: var(--text); }
-.track-meta { font-family: 'Syne Mono', monospace; font-size: 0.7rem; color: var(--muted); margin-top: 0.2rem; }
+.track-name { font-family: 'Homoarak', sans-serif; font-weight: 700; font-size: 0.95rem; color: var(--text); }
+.track-meta { font-family: 'Homoarak', monospace; font-size: 0.7rem; color: var(--muted); margin-top: 0.2rem; }
 .track-right { text-align: right; }
-.track-duration { font-family: 'Syne Mono', monospace; font-size: 0.75rem; color: var(--muted); }
+.track-duration { font-family: 'Homoarak', monospace; font-size: 0.75rem; color: var(--muted); }
 .track-badge {
   display: inline-block; margin-top: 0.3rem;
   padding: 0.15rem 0.6rem;
-  font-family: 'Syne Mono', monospace; font-size: 0.58rem;
+  font-family: 'Homoarak', monospace; font-size: 0.58rem;
   letter-spacing: 0.1em; text-transform: uppercase;
   border: 1px solid rgba(0,229,255,0.3); color: var(--cyan); border-radius: 2px;
 }
@@ -653,7 +662,7 @@ section { padding: 7rem 0; }
 .platform-btn {
   display: flex; align-items: center; gap: 0.6rem; padding: 0.7rem 1.4rem;
   background: var(--card); border: 1px solid var(--border); border-radius: 2px;
-  color: var(--muted); font-family: 'Syne', sans-serif; font-size: 0.8rem;
+  color: var(--muted); font-family: 'Homoarak', sans-serif; font-size: 0.8rem;
   text-decoration: none; cursor: none; transition: all 0.2s ease;
 }
 .platform-btn:hover { border-color: var(--purple); color: var(--purple); }
@@ -682,8 +691,8 @@ section { padding: 7rem 0; }
 }
 .img-ph-inner { display: flex; flex-direction: column; align-items: center; gap: 0.6rem; z-index: 1; }
 .img-ph-icon { color: var(--muted); opacity: 0.4; }
-.img-ph-label { font-family: 'Syne Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
-.img-ph-hint  { font-family: 'Syne Mono', monospace; font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(136,136,170,0.4); }
+.img-ph-label { font-family: 'Homoarak', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+.img-ph-hint  { font-family: 'Homoarak', monospace; font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(136,136,170,0.4); }
 .img-ph-corner { position: absolute; width: 20px; height: 20px; border-color: rgba(0,229,255,0.25); border-style: solid; }
 .img-ph-corner-tl { top: 1rem; left: 1rem; border-width: 1px 0 0 1px; }
 .img-ph-corner-br { bottom: 1rem; right: 1rem; border-width: 0 1px 1px 0; }
@@ -695,8 +704,8 @@ section { padding: 7rem 0; }
   gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 2px;
 }
 .stat { background: var(--card); padding: 1.5rem 1rem; text-align: center; }
-.stat-number { font-family: 'Orbitron', monospace; font-weight: 900; font-size: 1.8rem; color: var(--cyan); display: block; }
-.stat-label  { font-family: 'Syne Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-top: 0.3rem; display: block; }
+.stat-number { font-family: 'Homoarak', monospace; font-weight: 900; font-size: 1.8rem; color: var(--cyan); display: block; }
+.stat-label  { font-family: 'Homoarak', monospace; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-top: 0.3rem; display: block; }
 
 /* ── Media Section ── */
 #media { background: var(--deep); }
@@ -714,7 +723,7 @@ section { padding: 7rem 0; }
 .media-item:hover .media-placeholder { filter: brightness(1.3); }
 .media-ph-content {
   display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
-  font-family: 'Syne Mono', monospace; font-size: 0.65rem;
+  font-family: 'Homoarak', monospace; font-size: 0.65rem;
   letter-spacing: 0.15em; text-transform: uppercase; color: rgba(240,240,248,0.5);
 }
 .media-overlay {
@@ -747,17 +756,17 @@ section { padding: 7rem 0; }
 .service-card:hover::after { transform: scaleX(1); }
 .service-icon { font-size: 1.6rem; margin-bottom: 1.5rem; display: block; filter: grayscale(1) brightness(2); transition: filter 0.3s ease; }
 .service-card:hover .service-icon { filter: none; }
-.service-title { font-family: 'Orbitron', monospace; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text); margin-bottom: 1rem; }
+.service-title { font-family: 'Homoarak', monospace; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text); margin-bottom: 1rem; }
 .service-desc  { font-size: 0.88rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.2rem; }
 .service-list  { list-style: none; padding: 0; border-top: 1px solid var(--border); padding-top: 1rem; }
-.service-list li { font-family: 'Syne Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; color: var(--muted); padding: 0.35rem 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
+.service-list li { font-family: 'Homoarak', monospace; font-size: 0.68rem; letter-spacing: 0.1em; color: var(--muted); padding: 0.35rem 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
 .service-list li::before { content: '— '; color: var(--cyan); }
 
 /* ── Contact Section ── */
 #contact { background: var(--deep); }
 .contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 5rem; }
 .contact-item { margin-bottom: 2rem; }
-.contact-item-label { font-family: 'Syne Mono', monospace; font-size: 0.62rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--cyan); margin-bottom: 0.4rem; display: block; }
+.contact-item-label { font-family: 'Homoarak', monospace; font-size: 0.62rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--cyan); margin-bottom: 0.4rem; display: block; }
 .contact-item-value { font-size: 0.95rem; color: var(--text); }
 .contact-item-value a { color: var(--text); text-decoration: none; transition: color 0.2s; }
 .contact-item-value a:hover { color: var(--cyan); }
@@ -766,12 +775,12 @@ section { padding: 7rem 0; }
 .social-link:hover { border-color: var(--cyan); color: var(--cyan); box-shadow: var(--glow-cyan); }
 .form-group { margin-bottom: 1.4rem; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-label { display: block; font-family: 'Syne Mono', monospace; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; }
-input, textarea { width: 100%; background: var(--card); border: 1px solid var(--border); border-radius: 2px; padding: 0.85rem 1.1rem; font-family: 'Syne', sans-serif; font-size: 0.9rem; color: var(--text); outline: none; transition: border-color 0.2s ease, box-shadow 0.2s ease; resize: none; }
+label { display: block; font-family: 'Homoarak', monospace; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; }
+input, textarea { width: 100%; background: var(--card); border: 1px solid var(--border); border-radius: 2px; padding: 0.85rem 1.1rem; font-family: 'Homoarak', sans-serif; font-size: 0.9rem; color: var(--text); outline: none; transition: border-color 0.2s ease, box-shadow 0.2s ease; resize: none; }
 input::placeholder, textarea::placeholder { color: rgba(136,136,170,0.4); }
 input:focus, textarea:focus { border-color: rgba(0,229,255,0.4); box-shadow: 0 0 0 3px rgba(0,229,255,0.07); }
 textarea { min-height: 130px; }
-.btn-submit { width: 100%; background: transparent; border: 1px solid var(--cyan); color: var(--cyan); padding: 1rem 2rem; font-family: 'Orbitron', monospace; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase; border-radius: 2px; cursor: none; transition: all 0.3s ease; position: relative; overflow: hidden; }
+.btn-submit { width: 100%; background: transparent; border: 1px solid var(--cyan); color: var(--cyan); padding: 1rem 2rem; font-family: 'Homoarak', monospace; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase; border-radius: 2px; cursor: none; transition: all 0.3s ease; position: relative; overflow: hidden; }
 .btn-submit::before { content: ''; position: absolute; top: 0; left: -100%; bottom: 0; width: 100%; background: var(--cyan); transition: left 0.3s ease; z-index: -1; }
 .btn-submit:hover { color: #000; box-shadow: var(--glow-cyan); }
 .btn-submit:hover::before { left: 0; }
@@ -779,11 +788,11 @@ textarea { min-height: 130px; }
 /* ── Footer ── */
 footer { background: var(--black); border-top: 1px solid var(--border); padding: 3rem 0; }
 .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; }
-.footer-logo { font-family: 'Orbitron', monospace; font-weight: 900; font-size: 1.1rem; letter-spacing: 0.2em; color: var(--text); text-transform: uppercase; }
+.footer-logo { font-family: 'Homoarak', monospace; font-weight: 900; font-size: 1.1rem; letter-spacing: 0.2em; color: var(--text); text-transform: uppercase; }
 .footer-logo span { color: var(--cyan); }
-.footer-copy { font-family: 'Syne Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; color: var(--muted); }
+.footer-copy { font-family: 'Homoarak', monospace; font-size: 0.65rem; letter-spacing: 0.15em; color: var(--muted); }
 .footer-links { display: flex; gap: 2rem; }
-.footer-links a { font-family: 'Syne Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s ease; }
+.footer-links a { font-family: 'Homoarak', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s ease; }
 .footer-links a:hover { color: var(--cyan); }
 
 /* ── Reveal Animation ── */
@@ -796,7 +805,7 @@ footer { background: var(--black); border-top: 1px solid var(--border); padding:
 /* ── Lightbox ── */
 .lightbox { display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.95); align-items: center; justify-content: center; }
 .lightbox.active { display: flex; }
-.lightbox-close { position: absolute; top: 2rem; right: 2rem; font-family: 'Syne Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em; color: var(--muted); cursor: none; transition: color 0.2s; }
+.lightbox-close { position: absolute; top: 2rem; right: 2rem; font-family: 'Homoarak', monospace; font-size: 0.7rem; letter-spacing: 0.2em; color: var(--muted); cursor: none; transition: color 0.2s; }
 .lightbox-close:hover { color: var(--cyan); }
 .lightbox-content { max-width: 800px; width: 90%; background: var(--card); border: 1px solid var(--border); padding: 3rem; border-radius: 4px; text-align: center; }
 .lightbox-placeholder { width: 100%; aspect-ratio: 16/9; background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(0,229,255,0.08)); display: flex; align-items: center; justify-content: center; border-radius: 2px; }
@@ -849,7 +858,7 @@ footer { background: var(--black); border-top: 1px solid var(--border); padding:
 }
 
 .player-track-name {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Homoarak', sans-serif;
   font-size: 0.78rem;
   font-weight: 600;
   color: #fff;
@@ -860,7 +869,7 @@ footer { background: var(--black); border-top: 1px solid var(--border); padding:
 }
 
 .player-track-meta {
-  font-family: 'Syne Mono', monospace;
+  font-family: 'Homoarak', monospace;
   font-size: 0.58rem;
   color: rgba(255,255,255,0.35);
   letter-spacing: 0.1em;
@@ -910,7 +919,7 @@ footer { background: var(--black); border-top: 1px solid var(--border); padding:
 }
 
 .player-time {
-  font-family: 'Syne Mono', monospace;
+  font-family: 'Homoarak', monospace;
   font-size: 0.6rem;
   color: rgba(255,255,255,0.35);
   flex-shrink: 0;
