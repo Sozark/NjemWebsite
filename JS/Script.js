@@ -43,6 +43,32 @@ setTimeout(() => {
   });
 }, 2000);
 
+// ── Music Carousel ──────────────────────────────────────────
+(function () {
+  const track  = document.getElementById('carouselTrack');
+  const prev   = document.getElementById('carouselPrev');
+  const next   = document.getElementById('carouselNext');
+  const dots   = document.querySelectorAll('.carousel-dot');
+  if (!track || !prev || !next) return;
+
+  const slides = track.querySelectorAll('.carousel-slide');
+  let current  = 0;
+
+  function goTo(index) {
+    current = (index + slides.length) % slides.length;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    dots.forEach((dot, i) => dot.classList.toggle('active', i === current));
+  }
+
+  prev.addEventListener('click', () => goTo(current - 1));
+  next.addEventListener('click', () => goTo(current + 1));
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => goTo(Number(dot.dataset.index)));
+  });
+
+  goTo(0);
+})();
+
 // ── Track Hover (show play icon) ────────────────────────────
 document.querySelectorAll('.track').forEach(track => {
   const numEl  = track.querySelector('.track-num');
