@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <title>NJEM — Electronic Music Producer & DJ</title>
   <link rel="stylesheet" href="Styles.css"/>
 </head>
@@ -17,7 +17,7 @@
   <!-- ── NAVIGATION ── -->
   <nav id="navbar">
     <a href="#hero" class="nav-logo"><img src="Pictures/NjemLogo.jpg" alt="NJEM"></a>
-    
+
     <ul class="nav-links">
       <li><a href="#hero">Home</a></li>
       <li><a href="#music">Music</a></li>
@@ -27,7 +27,26 @@
       <li><a href="#contact">Contact</a></li>
     </ul>
 
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">
+      <span></span><span></span><span></span>
+    </button>
+
   </nav>
+
+  <!-- ── MOBILE NAV ── -->
+  <div class="mobile-nav" id="mobileNav">
+    <ul class="mobile-nav-links">
+      <li><a href="#hero">Home</a></li>
+      <li><a href="#music">Music</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#media">Media</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="mobile-nav-actions">
+      <a href="#contact" class="btn btn-primary">Book a Show</a>
+    </div>
+  </div>
 
   <!-- ── HERO ── -->
   <section id="hero">
@@ -220,9 +239,9 @@
               </div>
 
               <div class="platforms">
-                <a href="https://soundcloud.com/just-me-696886197" class="platform-btn"><span class="platform-icon">&#9729;</span> SoundCloud</a>
+                <a href="https://on.soundcloud.com/xzdN2xEsqtOUgTgSDt" class="platform-btn"><span class="platform-icon">&#9729;</span> SoundCloud</a>
                 <a href="https://youtube.com/@njem_hz?si=e8-wk1PQ0HIXeBL9" class="platform-btn"><span class="platform-icon">&#9711;</span> Youtube</a>
-                <a href="https://njem.bandcamp.com" class="platform-btn"><span class="platform-icon">&#9650;</span> Bandcamp</a>
+                <a href="https://njem.bandcamp.com/album/rejected-rhetoric" class="platform-btn"><span class="platform-icon">&#9650;</span> Bandcamp</a>
                 <a href="https://music.apple.com/us/artist/eternalnjem/1604718043" class="platform-btn"><span class="platform-icon">&#10022;</span> Apple Music</a>
               </div>
 
@@ -517,16 +536,16 @@
           <div class="form-row">
             <div class="form-group">
               <label for="name">Name</label>
-              <input type="text" id="name" placeholder="Your name"/>
+              <input type="text" id="name" placeholder="Your name" autocomplete="name" autocapitalize="words"/>
             </div>
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="email" id="email" placeholder="your@email.com"/>
+              <input type="email" id="email" placeholder="your@email.com" autocomplete="email" inputmode="email" autocapitalize="off"/>
             </div>
           </div>
           <div class="form-group">
             <label for="subject">Subject</label>
-            <input type="text" id="subject" placeholder="Booking inquiry, Collaboration…"/>
+            <input type="text" id="subject" placeholder="Booking inquiry, Collaboration…" autocomplete="off"/>
           </div>
           <div class="form-group">
             <label for="message">Message</label>
